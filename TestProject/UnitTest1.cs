@@ -1,4 +1,4 @@
-﻿using MauryDev.KoGaMa.ModelAPI;
+﻿using MauryDev.KoGaMa.ModelAPI.Utils;
 using NUnit.Framework;
 using System;
 using System.Numerics;
@@ -9,8 +9,7 @@ public class PositionConverterTests
     [Test]
     public void Test_RoundTrip_AllPossibleValues()
     {
-        // Este teste garante que todos os 125 valores 
-        // convertidos para Vector e depois para Byte voltem ao valor original.
+        
         for (byte i = 0; i < 125; i++)
         {
             Vector3 vector = PositionConverter.GetVectorFromByte(i);
