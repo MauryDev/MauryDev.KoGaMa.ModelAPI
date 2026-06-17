@@ -1,3 +1,5 @@
+![logo](MauryDev.KoGaMa.ModelAPI\logo big.png)
+
 # KoGaMa ModelAPI
 
 ModelAPI Core for KoGaMa. This library provides the core data structures and utilities for handling KoGaMa models, specifically focusing on cube-based representations.
