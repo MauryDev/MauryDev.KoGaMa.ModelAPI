@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MauryDev.KoGaMa.ModelAPI/MauryDev.KoGaMa.ModelAPI.csproj" />
+  <Project Path="TestProject/TestProject.csproj" />
+</Solution>
