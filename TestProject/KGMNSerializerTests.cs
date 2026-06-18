@@ -83,8 +83,11 @@ namespace TestProject
 
             // Assert
             Assert.That(resultModel.Cubes.Count, Is.EqualTo(2));
-            Assert.That(resultModel.Cubes[0].Position.X, Is.EqualTo(1));
-            Assert.That(resultModel.Cubes[1].Position.X, Is.EqualTo(2));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(resultModel.Cubes[0].Position.X, Is.EqualTo(1));
+                Assert.That(resultModel.Cubes[1].Position.X, Is.EqualTo(2));
+            }
         }
 
         [Test]
