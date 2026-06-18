@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MauryDev.KoGaMa.ModelAPI.KoGaMaNative\MauryDev.KoGaMa.ModelAPI.KoGaMaTools.csproj" />
     <ProjectReference Include="..\MauryDev.KoGaMa.ModelAPI\MauryDev.KoGaMa.ModelAPI.csproj" />
   </ItemGroup>
 

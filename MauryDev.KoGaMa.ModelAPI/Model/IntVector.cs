@@ -37,6 +37,18 @@ namespace MauryDev.KoGaMa.ModelAPI.Models
                     default: throw new IndexOutOfRangeException();
                 }
             }
+
         }
+
+        public bool Equals(IntVector other) => X == other.X && Y == other.Y && Z == other.Z;
+
+        public override bool Equals(object obj) => obj is IntVector other && Equals(other);
+
+
+        public override int GetHashCode() => X * Y * Z;
+
+        public override string ToString() => $"({X}, {Y}, {Z})";
+        public static bool operator ==(IntVector left, IntVector right) => left.Equals(right);
+        public static bool operator !=(IntVector left, IntVector right) => !left.Equals(right);
     }
 }

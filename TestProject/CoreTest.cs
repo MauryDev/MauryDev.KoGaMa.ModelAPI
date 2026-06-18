@@ -3,82 +3,84 @@ using NUnit.Framework;
 using System;
 using System.Numerics;
 
-[TestFixture]
-public class PositionConverterTests
+namespace TestProject
 {
-    [Test]
-    public void Test_RoundTrip_AllPossibleValues()
+    [TestFixture]
+    public class PositionConverterTests
     {
-        
-        for (byte i = 0; i < 125; i++)
+        [Test]
+        public void Test_RoundTrip_AllPossibleValues()
         {
-            Vector3 vector = PositionConverter.GetVectorFromByte(i);
-            byte resultByte = PositionConverter.GetByteFromVector(vector);
 
-            Assert.That(resultByte, Is.EqualTo(i), $"Falha no round-trip para o índice {i}");
-        }
-    }
+            for (byte i = 0; i < 125; i++)
+            {
+                Vector3 vector = PositionConverter.GetVectorFromByte(i);
+                byte resultByte = PositionConverter.GetByteFromVector(vector);
 
-    [TestCase(0, -0.5f, -0.5f, -0.5f)]   
-    [TestCase(124, 0.5f, 0.5f, 0.5f)]  
-    [TestCase(62, 0f, 0f, 0f)]         
-    [TestCase(24, -0.5f, 0.5f, 0.5f)] 
-    public void Test_SpecificValues(byte expectedByte, float x, float y, float z)
-    {
-        Vector3 expectedVector = new Vector3(x, y, z);
-
-        Vector3 actualVector = PositionConverter.GetVectorFromByte(expectedByte);
-        Assert.That(actualVector, Is.EqualTo(expectedVector));
-
-        byte actualByte = PositionConverter.GetByteFromVector(expectedVector);
-        Assert.That(actualByte, Is.EqualTo(expectedByte));
-    }
-
-    [Test]
-    public void Test_InvalidIndex_ShouldThrowArgumentOutOfRangeException()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            PositionConverter.GetVectorFromByte(125)
-        );
-    }
-
-    [Test]
-    public void Test_InvalidVector_ShouldThrowArgumentException()
-    {
-        Vector3 invalidVector = new Vector3(1.0f, 0f, 0f);
-
-        var ex = Assert.Throws<ArgumentException>(() =>
-            PositionConverter.GetByteFromVector(invalidVector)
-        );
-
-        Assert.That(ex.Message, Does.Contain("inválida"));
-    }
-
-    [Test]
-    public void TestAllPositions()
-    {
-        int i = 0;
-        foreach (var b in bytePositionLookUpTable)
-        {
-            var idx = PositionConverter.GetByteFromVector(b);
-            Is.Equals(idx, i++);
-        }
-       
-    }
-
-    [Test]
-    public void TestAllIndex()
-    {
-        foreach (var item in positionByteLookUpTable)
-        {
-            var pos = PositionConverter.GetVectorFromByte(item.Value);
-            Is.Equals(item.Key, pos);
+                Assert.That(resultByte, Is.EqualTo(i), $"Falha no round-trip para o índice {i}");
+            }
         }
 
-    }
-
-    private static Vector3[] bytePositionLookUpTable = new Vector3[]
+        [TestCase(0, -0.5f, -0.5f, -0.5f)]
+        [TestCase(124, 0.5f, 0.5f, 0.5f)]
+        [TestCase(62, 0f, 0f, 0f)]
+        [TestCase(24, -0.5f, 0.5f, 0.5f)]
+        public void Test_SpecificValues(byte expectedByte, float x, float y, float z)
         {
+            Vector3 expectedVector = new Vector3(x, y, z);
+
+            Vector3 actualVector = PositionConverter.GetVectorFromByte(expectedByte);
+            Assert.That(actualVector, Is.EqualTo(expectedVector));
+
+            byte actualByte = PositionConverter.GetByteFromVector(expectedVector);
+            Assert.That(actualByte, Is.EqualTo(expectedByte));
+        }
+
+        [Test]
+        public void Test_InvalidIndex_ShouldThrowArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                PositionConverter.GetVectorFromByte(125)
+            );
+        }
+
+        [Test]
+        public void Test_InvalidVector_ShouldThrowArgumentException()
+        {
+            Vector3 invalidVector = new Vector3(1.0f, 0f, 0f);
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                PositionConverter.GetByteFromVector(invalidVector)
+            );
+
+            Assert.That(ex.Message, Does.Contain("inválida"));
+        }
+
+        [Test]
+        public void TestAllPositions()
+        {
+            int i = 0;
+            foreach (var b in bytePositionLookUpTable)
+            {
+                var idx = PositionConverter.GetByteFromVector(b);
+                Is.Equals(idx, i++);
+            }
+
+        }
+
+        [Test]
+        public void TestAllIndex()
+        {
+            foreach (var item in positionByteLookUpTable)
+            {
+                var pos = PositionConverter.GetVectorFromByte(item.Value);
+                Is.Equals(item.Key, pos);
+            }
+
+        }
+
+        private static Vector3[] bytePositionLookUpTable = new Vector3[]
+            {
             new Vector3(-0.5f, -0.5f, -0.5f),
             new Vector3(-0.5f, -0.5f, -0.25f),
             new Vector3(-0.5f, -0.5f, 0f),
@@ -204,9 +206,9 @@ public class PositionConverterTests
             new Vector3(0.5f, 0.5f, 0f),
             new Vector3(0.5f, 0.5f, 0.25f),
             new Vector3(0.5f, 0.5f, 0.5f)
-        };
+            };
 
-    private static Dictionary<Vector3, byte> positionByteLookUpTable = new Dictionary<Vector3, byte>
+        private static Dictionary<Vector3, byte> positionByteLookUpTable = new Dictionary<Vector3, byte>
         {
             {
                 new Vector3(-0.5f, -0.5f, -0.5f),
@@ -709,4 +711,6 @@ public class PositionConverterTests
                 124
             }
         };
+    }
+
 }
