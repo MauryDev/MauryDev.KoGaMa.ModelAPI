@@ -8,6 +8,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
+    <VersionPrefix>1.0.1</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>

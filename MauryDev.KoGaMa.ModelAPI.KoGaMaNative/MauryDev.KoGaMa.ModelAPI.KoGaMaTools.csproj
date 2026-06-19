@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Title>KoGaMa ModelAPI KGM Tools</Title>
+    <Authors>MauryDev</Authors>
+    <Description>ModelAPI KoGaMa Tools</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <VersionPrefix>1.0.1</VersionPrefix>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,4 +19,16 @@
     <ProjectReference Include="..\MauryDev.KoGaMa.ModelAPI\MauryDev.KoGaMa.ModelAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LICENSE.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="README.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
 </Project>
