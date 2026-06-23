@@ -7,7 +7,7 @@
     <Description>ModelAPI KoGaMa Tools</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>1.0.4</VersionPrefix>
 
   </PropertyGroup>
 

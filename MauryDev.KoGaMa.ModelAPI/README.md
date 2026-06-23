@@ -1,55 +1,55 @@
 # KoGaMa Model API
 
-A **KoGaMa Model API** é uma biblioteca leve, desenvolvida em `.NET Standard 2.0`, projetada para a manipulação, processamento e serialização de dados de modelos 3D do KoGaMa. Ela abstrai a complexidade de representar blocos (voxels) que possuem deformações de vértices, materiais por face e coordenadas compactadas.
+The **KoGaMa Model API** is a lightweight library, developed in `.NET Standard 2.0`, designed for the manipulation, processing, and serialization of KoGaMa 3D model data. It abstracts the complexity of representing blocks (voxels) that feature vertex deformations, per-face materials, and compressed coordinates.
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-- **Representação de Cubos**: Modelagem completa de blocos, incluindo posição global, materiais individuais para cada face e offsets de vértices (corners).
-- **Gerenciamento de Modelos**: O `ModelInfo` agora atua como um gestor, permitindo adicionar, remover, buscar cubos por posição/material e calcular a *Bounding Box* do modelo.
-- **Conversão de Coordenadas Bidirecional**: O `PositionConverter` traduz bytes compactados em `Vector3` e vice-versa, utilizando um sistema de grade $5 \times 5 \times 5$.
-- **Estrutura de Dados Otimizada**: Uso de `IntVector` (baseado em `short`) para reduzir a pegada de memória em modelos com milhares de cubos.
-- **Interface de Serialização**: `ISerializer` genérica para implementação de persistência em formatos Binários, JSON ou customizados.
-- **Compatibilidade Máxima**: Alvo `.NET Standard 2.0` (compatível com Unity, .NET Framework e .NET Core/5+).
+- **Cube Representation**: Complete block modeling, including global position, individual materials for each face, and vertex offsets (corners).
+- **Model Management**: `ModelInfo` acts as a manager, allowing you to add, remove, and search for cubes by position/material, as well as calculate the model's Bounding Box.
+- **Bidirectional Coordinate Conversion**: The `PositionConverter` translates compressed bytes into `Vector3` and vice versa, utilizing a $5 \times 5 \times 5$ grid system.
+- **Optimized Data Structure**: Use of `IntVector` (based on `short`) to reduce the memory footprint in models containing thousands of cubes.
+- **Serialization Interface**: A generic `ISerializer` for implementing persistence in Binary, JSON, or custom formats.
+- **Maximum Compatibility**: Target `.NET Standard 2.0` (compatible with Unity, .NET Framework, and .NET Core/5+).
 
-## 🛠 Arquitetura Técnica
+## 🛠 Technical Architecture
 
-### 1. `ModelInfo` (O Gestor do Modelo)
-Não é apenas um container, mas a classe central de manipulação do modelo:
-- **Busca e Filtro**: Métodos como `FindCubeAt(position)` e `GetCubesByMaterial(id)`.
-- **Bounding Box**: Calcula automaticamente os limites mínimos e máximos do modelo através do método `GetBoundingBox()`.
-- **Manipulação**: Suporte a `AddCube`, `RemoveCube` e `Clear`.
+### 1. `ModelInfo` (The Model Manager)
+More than just a container, this is the central class for model manipulation:
+- **Search and Filtering**: Methods such as `FindCubeAt(position)` and `GetCubesByMaterial(id)`.
+- **Bounding Box**: Automatically calculates the minimum and maximum limits of the model via the `GetBoundingBox()` method.
+- **Manipulation**: Support for `AddCube`, `RemoveCube`, and `Clear`.
 
-### 2. `Cube` (A Unidade Básica)
-Representa um bloco individual com as seguintes propriedades:
-- **`Position`**: Localização no grid via `IntVector`.
-- **`Materials`**: Array de 6 bytes (um para cada face definida no enum `Face`).
-- **`Corners`**: Array de 8 bytes que definem a deformação dos vértices. 
-    - *Dica:* Use `Cube.IdentityByteCorners` para resetar um cubo ao seu estado padrão.
-- **`GetCornersVectors()`**: Converte os bytes de corners em `Vector3` reais para renderização.
+### 2. `Cube` (The Basic Unit)
+Represents an individual block with the following properties:
+- **`Position`**: Grid location via `IntVector`.
+- **`Materials`**: An array of 6 bytes (one for each face defined in the `Face` enum).
+- **`Corners`**: An array of 8 bytes that define vertex deformations. 
+    - *Tip:* Use `Cube.IdentityByteCorners` to reset a cube to its default state.
+- **`GetCornersVectors()`**: Converts corner bytes into actual `Vector3` values for rendering.
 
-### 3. `PositionConverter` (O Coração Matemático)
-Mapeia um único `byte` (0-124) para um `Vector3` baseado em uma grade de 5 níveis:
-- **Valores de referência**: `{-0.5f, -0.25f, 0f, 0.25f, 0.5f}`.
-- **Cálculo**:
-  - $X = index / 25
-  - $Y = (index % 25) / 5
-  - $Z = index % 5
+### 3. `PositionConverter` (The Mathematical Core)
+Maps a single `byte` (0-124) to a `Vector3` based on a 5-level grid:
+- **Reference values**: `{-0.5f, -0.25f, 0f, 0.25f, 0.5f}`.
+- **Calculation**:
+  - $X = index / 25$
+  - $Y = (index \pmod{25}) / 5$
+  - $Z = index \pmod 5$
 
 ### 4. `IntVector`
-Uma estrutura `struct` otimizada para coordenadas inteiras, evitando o overhead de `float` quando não necessário e provendo acesso via indexador (`vector[0]` para X, etc).
+An optimized `struct` for integer coordinates, avoiding the overhead of `float` when unnecessary and providing access via an indexer (`vector[0]` for X, etc.).
 
 ---
 
-## 💻 Exemplos de Uso
+## 💻 Usage Examples
 
-### Criando e Gerenciando um Modelo
+### Creating and Managing a Model
 ```csharp
 using MauryDev.KoGaMa.ModelAPI.Model;
 using MauryDev.KoGaMa.ModelAPI.Models;
 
 var model = new ModelInfo();
 
-// Criando um cubo na posição (0, 1, 0)
+// Creating a cube at position (0, 1, 0)
 var cube = new Cube(new IntVector(0, 1, 0)) 
 {
     Materials = new byte[] { 1, 1, 1, 1, 1, 1 } 
@@ -57,55 +57,55 @@ var cube = new Cube(new IntVector(0, 1, 0))
 
 model.AddCube(cube);
 
-// Verificando se existe um cubo em certa posição
+// Checking if a cube exists at a certain position
 if (model.HasCubeAt(new IntVector(0, 1, 0))) 
 {
     var foundCube = model.FindCubeAt(new IntVector(0, 1, 0));
 }
 
-// Obtendo a Bounding Box do modelo
+// Getting the model's Bounding Box
 var (min, max) = model.GetBoundingBox();
-Console.WriteLine($"Modelo expande de {min} até {max}");
+Console.WriteLine($"Model expands from {min} to {max}");
 ```
 
-### Trabalhando com Vértices (Corners)
+### Working with Vertices (Corners)
 ```csharp
 var cube = new Cube(new IntVector(0, 0, 0));
-cube.Corners = Cube.IdentityByteCorners; // Define corners padrão
+cube.Corners = Cube.IdentityByteCorners; // Sets default corners
 
-// Obtém as posições reais dos 8 vértices para renderização
+// Gets the actual positions of the 8 vertices for rendering
 System.Numerics.Vector3[] vertices = cube.GetCornersVectors();
 
 foreach (var v in vertices)
 {
-    Console.WriteLine($"Vértice: {v}");
+    Console.WriteLine($"Vertex: {v}");
 }
 ```
 
-### Conversão Manual de Coordenadas
+### Manual Coordinate Conversion
 ```csharp
 using MauryDev.KoGaMa.ModelAPI.Utils;
 
-// De Byte para Vector3
+// From Byte to Vector3
 byte byteVal = 124; 
 System.Numerics.Vector3 vec = PositionConverter.GetVectorFromByte(byteVal);
 
-// De Vector3 para Byte
+// From Vector3 to Byte
 byte backToByte = PositionConverter.GetByteFromVector(vec);
 ```
 
 ---
 
-## 📦 Instalação
+## 📦 Installation
 
-Adicione a referência à DLL compilada ao seu projeto ou inclua os arquivos fonte.
+Add the reference to the compiled DLL to your project or include the source files.
 
-**Dependências:**
+**Dependencies:**
 - `System.Numerics.Vectors` (v4.6.1+)
 
-## 📐 Tabela de Coordenadas (Grid 5x5x5)
+## 📐 Coordinate Table (5x5x5 Grid)
 
-| Índice | Valor Float |
+| Index | Float Value |
 | :--- | :--- |
 | 0 | -0.5f |
 | 1 | -0.25f |
@@ -113,10 +113,10 @@ Adicione a referência à DLL compilada ao seu projeto ou inclua os arquivos fon
 | 3 | 0.25f |
 | 4 | 0.5f |
 
-## 👤 Autor
+## 👤 Author
 
 - **MauryDev**
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.

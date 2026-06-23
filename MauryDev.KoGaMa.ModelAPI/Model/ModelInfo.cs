@@ -1,5 +1,4 @@
-﻿using MauryDev.KoGaMa.ModelAPI.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MauryDev.KoGaMa.ModelAPI.Model

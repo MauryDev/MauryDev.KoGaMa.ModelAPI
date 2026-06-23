@@ -1,5 +1,4 @@
 ﻿using MauryDev.KoGaMa.ModelAPI.Model;
-using MauryDev.KoGaMa.ModelAPI.Models;
 using MessagePack;
 using System;
 using System.Collections.Generic;
@@ -12,9 +11,9 @@ namespace MauryDev.KoGaMa.ModelAPI.KoGaMaTools
     [MessagePackObject(keyAsPropertyName: true)]
     public class CubeInfoDTO
     {
-        public byte[] FaceMaterials { get; set; }
+        public int[] FaceMaterials { get; set; }
 
-        public byte[] Corners { get; set; }
+        public int[] Corners { get; set; }
 
         public PositionDTO Position { get; set; }
         [MessagePackObject(keyAsPropertyName: true)]
@@ -32,10 +31,22 @@ namespace MauryDev.KoGaMa.ModelAPI.KoGaMaTools
         {
             if (dto == null) return null;
 
+            byte[] materials = new byte[dto.FaceMaterials.Length];
+            for (int i = 0; i < dto.FaceMaterials.Length; i++)
+            {
+                materials[i] = Convert.ToByte(dto.FaceMaterials[i]);
+            }
+
+            byte[] corners = new byte[dto.Corners.Length];
+            for (int i = 0; i < dto.Corners.Length; i++)
+            {
+                corners[i] = Convert.ToByte(dto.Corners[i]);
+            }
+
             return new Cube
             {
-                Materials = dto.FaceMaterials,
-                Corners = dto.Corners,
+                Materials = materials,
+                Corners = corners,
                 Position = new IntVector(dto.Position.X, dto.Position.Y, dto.Position.Z)
             };
         }
@@ -44,10 +55,22 @@ namespace MauryDev.KoGaMa.ModelAPI.KoGaMaTools
         {
             if (cube == null) return null;
 
+            int[] materials = new int[cube.Materials.Length];
+            for (int i = 0; i < cube.Materials.Length; i++)
+            {
+                materials[i] = Convert.ToInt32(cube.Materials[i]);
+            }
+
+            int[] corners = new int[cube.Corners.Length];
+            for (int i = 0; i < cube.Corners.Length; i++)
+            {
+                corners[i] = Convert.ToInt32(cube.Corners[i]);
+            }
+
             return new CubeInfoDTO
             {
-                FaceMaterials = cube.Materials,
-                Corners = cube.Corners,
+                FaceMaterials = materials,
+                Corners = corners,
                 Position = new PositionDTO
                 {
                     X = cube.Position.X,

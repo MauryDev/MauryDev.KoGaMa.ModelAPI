@@ -1,6 +1,6 @@
 using System;
 
-namespace MauryDev.KoGaMa.ModelAPI.Models
+namespace MauryDev.KoGaMa.ModelAPI.Model
 {
     public struct IntVector
     {
