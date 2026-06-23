@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="MauryDev.KoGaMa.ModelAPI.KoGaMaNative/MauryDev.KoGaMa.ModelAPI.KoGaMaTools.csproj" Id="cae25b2d-1fee-4e8e-9884-530632c6f42f" />
+  <Project Path="MauryDev.KoGaMa.ModelAPI.Official/MauryDev.KoGaMa.ModelAPI.Official.csproj" Id="74437cfc-e552-4d03-88db-49f6ce17b0bc" />
   <Project Path="MauryDev.KoGaMa.ModelAPI/MauryDev.KoGaMa.ModelAPI.csproj" />
   <Project Path="TestProject/TestProject.csproj" />
 </Solution>
