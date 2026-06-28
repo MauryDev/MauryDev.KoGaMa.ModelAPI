@@ -12,7 +12,6 @@ namespace MauryDev.KoGaMa.ModelAPI.Official
     {
         private const byte FlagIdentityCorners = 1;
         private const byte FlagUniformMaterials = 2;
-        private const int MaxCubesInRow = 63;
 
         public void Serialize(Stream stream, ModelInfo model)
         {

@@ -23,5 +23,7 @@ namespace MauryDev.KoGaMa.ModelAPI.Interfaces
 
         int Pid { get; }
         int Id { get; }
+
+        int AuthorProfileID { get; }
     }
 }

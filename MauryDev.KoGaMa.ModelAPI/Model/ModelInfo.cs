@@ -20,10 +20,8 @@ namespace MauryDev.KoGaMa.ModelAPI.Model
 
         public ModelInfo(IEnumerable<Cube> cubes)
         {
-            if (cubes != null)
-            {
-                _cubes.AddRange(cubes);
-            }
+            cubes = new List<Cube>(cubes);
+            
         }
 
         public void AddCube(Cube cube)
